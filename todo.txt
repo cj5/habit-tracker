@@ -1,0 +1,20 @@
+[ ] Week switching — nav arrows, date picker
+
+[ ] Hook up to DB
+https://explorers.netlify.com/learn/up-and-running-with-serverless-functions/next-steps-with-serverless-functions
+
+[ ] Allow adding/deleting habits w/out affecting old data
+
+[ ] Add data visualization
+
+[ ] Full month calendar by habit ?
+
+
+
+Current plan:
+
+DB = Supabase, CRUD = serverless functions, deploy w Netlify
+
+DB
+table = dates
+columns = id, date, habits: title, checked, amountPerWeek

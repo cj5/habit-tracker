@@ -1,25 +1,42 @@
 <template>
   <div class="container">
-    <h1 class="mt-3">Habit Tracker</h1>
-    <table>
-      <tr class="table-heading">
-        <th>Habit</th>
-        <template v-for="(date, i) in store.displayedDates" :key="i">
-          <th :data-date-id="date.id" :class="setActiveDayClass(date.id, store.todayId)">{{ date.title }}</th>
+    <h1 class="mt-3 mb-4">Habit Tracker</h1>
+
+    <div class="nav-wrap flex mb-2">
+      <button @click="prevWeek" class="btn mr-1">Prev</button>
+      <button @click="nextWeek" class="btn">Next</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <tr class="table-heading">
+          <th>Habit</th>
+          <template v-for="(date, i) in store.displayedDates" :key="i">
+            <th
+              :data-date-id="date.id"
+              :class="setActiveDayClass(date.id, store.todayId)"
+              class="fz-12"
+            >{{ date.title }}</th>
+          </template>
+          <th>Totals</th>
+        </tr>
+        <template v-for="(habit, i) in habits" :key="i">
+          <TableRow :heading="habit.title" :habit-id="i"/>
         </template>
-        <th>Totals</th>
-      </tr>
-      <template v-for="(habit, i) in habits" :key="i">
-        <TableRow :heading="habit.title" :habit-id="i"/>
-      </template>
-      <tr>
-        <td>Totals</td>
-        <td v-for="(date, i) in store.displayedDates" :key="i">
-          <span class="bold">{{ dayTotals(date.id) }}</span> / {{ habitsAmount() }}
-        </td>
-        <td></td>
-      </tr>
-    </table>
+        <tr>
+          <td>Totals</td>
+          <td v-for="(date, i) in store.displayedDates" :key="i">
+            <span class="bold">{{ dayTotals(date.id) }}</span> / {{ habitsAmount() }}
+          </td>
+          <td><span class="bold">#</span> / {{ habitsAmount() }}</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="submit-wrap flex-jce mt-2">
+      <button @click="submitWeek" class="btn">Submit Week</button>
+    </div>
+
   </div>
 </template>
 
@@ -54,20 +71,23 @@ function initDatesArray() {
   }
 }
 
-function initDisplayedDatesArray() {
+function updateDisplayedDatesArray(targetDay) {
+  store.displayedDates = []
   for (const i of store.dates) {
     if (i.title === now.format(DATE_FORMAT)) {
       store.todayId = i.id
-      // FIND PREVIOUS SUNDAY
+    }
+    if (i.title === targetDay) {
       if (i.day === 'Sun') {
-        console.log(`Today is ${i.day}`)
         for (let j = 0; j < DAYS_TO_DISPLAY; j++) {
           store.displayedDates.push({
             id: store.dates[i.id + j].id,
             title: store.dates[i.id + j].title,
+            habits: [],
           })
         }
       } else {
+        // FIND PREVIOUS SUNDAY
         for (let j = 0; j < DAYS_TO_DISPLAY; j ++) {
           if (store.dates[i.id - j].day === 'Sun') {
             store.mostRecentSunId = i.id - j
@@ -110,12 +130,28 @@ function dayTotals(id) {
 }
 
 function habitsAmount() {
-  return store.displayedDates[0].habits.length
+  if (store.displayedDates[0]) {
+    return store.displayedDates[0].habits.length
+  }
+}
+
+function prevWeek() {
+  let prevSunId = store.displayedDates[0].id - DAYS_TO_DISPLAY
+  updateDisplayedDatesArray(store.dates[prevSunId].title)
+}
+
+function nextWeek() {
+  let nextSunId = store.displayedDates[0].id + DAYS_TO_DISPLAY
+  updateDisplayedDatesArray(store.dates[nextSunId].title)
+}
+
+function submitWeek() {
+  console.log('submitweek()')
 }
 
 onMounted(() => {
   initDatesArray()
-  initDisplayedDatesArray()
+  updateDisplayedDatesArray(now.format(DATE_FORMAT))
 
   // console.log('dates:', JSON.stringify(store.dates, null, 2))
   // console.log('displayedDates:', JSON.stringify(store.displayedDates, null, 2))

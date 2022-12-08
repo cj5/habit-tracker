@@ -2,7 +2,11 @@
   <tr>
     <td>{{ props.heading }}</td>
     <template v-for="(date, i) in store.displayedDates" :key="i">
-      <td :data-date-id="date.id" :data-habit-id="props.habitId" :class="setActiveDayClass(date.id, store.todayId)">
+      <td
+        :data-date-id="date.id"
+        :data-habit-id="props.habitId"
+        :class="setActiveDayClass(date.id, store.todayId)"
+      >
         <div class="flex">
           <input
             id=""

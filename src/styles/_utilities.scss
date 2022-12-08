@@ -26,6 +26,11 @@
 }
 
 .flex { display: flex !important; }
+.flex-jce {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
 .p-rel { position: relative; }
 
 .bold { font-weight: bold; }

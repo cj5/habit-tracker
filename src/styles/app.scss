@@ -20,3 +20,13 @@ td.success {
 td.fail {
   background-color: $color-fail;
 }
+
+th:not(:first-of-type),
+td:not(:first-of-type) {
+  width: 65px;
+  max-width: 65px;
+}
+
+.submit-wrap {
+  max-width: 830px;
+}
