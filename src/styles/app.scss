@@ -1,0 +1,22 @@
+@import 'variables';
+@import 'utilities';
+@import 'base';
+
+.id {
+  font-size: 10px;
+  color: gray;
+}
+
+th.active {
+  background-color: darken($td-active-bg-color, 10%);
+}
+td.active {
+  background-color: $td-active-bg-color;
+}
+
+td.success {
+  background-color: $color-success;
+}
+td.fail {
+  background-color: $color-fail;
+}

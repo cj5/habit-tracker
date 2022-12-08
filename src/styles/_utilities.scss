@@ -1,0 +1,33 @@
+@for $i from 0 through 10 {
+  .mt-#{$i} { margin-top: #{$i*10}px !important; }
+  .mr-#{$i} { margin-right: #{$i*10}px !important; }
+  .mb-#{$i} { margin-bottom: #{$i*10}px !important; }
+  .ml-#{$i} { margin-left: #{$i*10}px !important; }
+  .my-#{$i} { margin-top: #{$i*10}px !important; margin-bottom: #{$i*10}px !important; }
+  .mx-#{$i} { margin-left: #{$i*10}px !important; margin-right: #{$i*10}px !important; }
+  .pt-#{$i} { padding-top: #{$i*10}px !important; }
+  .pr-#{$i} { padding-right: #{$i*10}px !important; }
+  .pb-#{$i} { padding-bottom: #{$i*10}px !important; }
+  .pl-#{$i} { padding-left: #{$i*10}px !important; }
+  .py-#{$i} { padding-top: #{$i*10}px !important; padding-bottom: #{$i*10}px !important; }
+  .px-#{$i} { padding-left: #{$i*10}px !important; padding-right: #{$i*10}px !important; }
+}
+
+@for $i from 10 through 60 {
+  @if $i % 2 == 0 {
+    .fz-#{$i} { font-size: #{$i}px !important; }
+  }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.flex { display: flex !important; }
+.p-rel { position: relative; }
+
+.bold { font-weight: bold; }
+
+.color-gray { color: gray; }
