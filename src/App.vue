@@ -2,6 +2,8 @@
   <div class="container">
     <h1 class="mt-3 mb-4">Habit Tracker</h1>
 
+    <DatabaseTesting />
+
     <div class="nav-wrap flex mb-2">
       <button @click="prevWeek" class="btn mr-1">Prev</button>
       <button @click="nextWeek" class="btn">Next</button>
@@ -43,17 +45,21 @@
 <script setup>
 import { onMounted } from 'vue'
 import { useStore } from './store'
+
 import TableRow from './components/TableRow.vue'
+import DatabaseTesting from './components/DatabaseTesting.vue'
+
 import { habits } from './data/habits'
 import { setActiveDayClass } from './utilities'
+
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+
+console.clear()
 
 const store = useStore()
 
 dayjs.extend(relativeTime)
-
-console.clear()
 
 const now = dayjs()
 const START_DATE = dayjs('2022-10-25 00:00')

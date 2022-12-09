@@ -1,0 +1,18 @@
+[
+  {
+    "id": "1",
+    "date": "2022-12-09",
+    "habits": [
+      {
+        "title": "Follow diet",
+        "amountPerWeek": 6,
+        "checked": false
+      },
+      {
+        "title": "Work out",
+        "amountPerWeek": 4,
+        "checked": false
+      }
+    ]
+  }
+]

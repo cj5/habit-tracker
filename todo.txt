@@ -3,7 +3,9 @@
 [ ] Hook up to DB
 https://explorers.netlify.com/learn/up-and-running-with-serverless-functions/next-steps-with-serverless-functions
 
-[ ] Allow adding/deleting habits w/out affecting old data
+[ ] Update weekly habits w/out affecting old data
+
+[ ] Update amountPerWeek
 
 [ ] Add data visualization
 

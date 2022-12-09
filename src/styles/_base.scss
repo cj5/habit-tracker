@@ -68,3 +68,9 @@ tr {
     }
   }
 }
+
+input {
+  border: 1px solid $color-1;
+  border-radius: 5px;
+  padding: 6px 10px;
+}
