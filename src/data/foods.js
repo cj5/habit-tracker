@@ -1,0 +1,257 @@
+export const foods = [
+  {
+    'name' : 'Apple',
+    'portion': '1',
+    'multiplier': 1,
+    'protein': 1,
+    'carbs': 25,
+    'fat': 0,
+    'calories': 100,
+    'selected': false,
+  },
+  {
+    'name' : 'Banana',
+    'portion': '1',
+    'multiplier': 1,
+    'protein': 1,
+    'carbs': 28,
+    'fat': 0,
+    'calories': 110,
+    'selected': false,
+  },
+  {
+    'name' : 'Oats',
+    'portion': '1/2 C',
+    'multiplier': 1,
+    'protein': 6,
+    'carbs': 33,
+    'fat': 3,
+    'calories': 190,
+    'selected': false,
+  },
+  {
+    'name' : 'Muesli',
+    'portion': '1/4 C',
+    'multiplier': 1,
+    'protein': 4,
+    'carbs': 23,
+    'fat': 3,
+    'calories': 140,
+    'selected': false,
+  },
+  {
+    'name' : 'Honey',
+    'portion': '1 T',
+    'multiplier': 1,
+    'protein': 0,
+    'carbs': 21,
+    'fat': 0,
+    'calories': 60,
+    'selected': false,
+  },
+  {
+    'name' : 'Yogurt',
+    'portion': '150 g, ~ 0.6 C',
+    'multiplier': 1,
+    'protein': 16,
+    'carbs': 6,
+    'fat': 0,
+    'calories': 90,
+    'selected': false,
+  },
+  {
+    'name' : 'Chicken breast',
+    'portion': '200 g ~ 1 breast',
+    'multiplier': 1,
+    'protein': 61,
+    'carbs': 0,
+    'fat': 7,
+    'calories': 330,
+    'selected': false,
+  },
+  {
+    'name' : 'Salmon (Atlantic, farm)',
+    'portion': '1 lb',
+    'multiplier': 1,
+    'protein': 90,
+    'carbs': 0,
+    'fat': 50,
+    'calories': 830,
+    'selected': false,
+  },
+  {
+    'name' : 'Sweet potato',
+    'portion': '1 C ~ 1 large',
+    'multiplier': 1,
+    'protein': 3,
+    'carbs': 36,
+    'fat': 0,
+    'calories': 100,
+    'selected': false,
+  },
+  {
+    'name' : 'Russet potato',
+    'portion': '346 g ~ 1 lg',
+    'multiplier': 1,
+    'protein': 9,
+    'carbs': 74,
+    'fat': 0,
+    'calories': 336,
+    'selected': false,
+  },
+  {
+    'name' : 'Broccoli',
+    'portion': 'Bunch ~ 600 g',
+    'multiplier': 1,
+    'protein': 17,
+    'carbs': 40,
+    'fat': 2,
+    'calories': 205,
+    'selected': false,
+  },
+  {
+    'name' : 'Protein powder',
+    'portion': '30 g',
+    'multiplier': 1,
+    'protein': 24,
+    'carbs': 3,
+    'fat': 1.50,
+    'calories': 120,
+    'selected': false,
+  },
+  {
+    'name' : 'Kombucha',
+    'portion': '16 fl oz',
+    'multiplier': 1,
+    'protein': 0,
+    'carbs': 12,
+    'fat': 0,
+    'calories': 50,
+    'selected': false,
+  },
+  {
+    'name' : 'Popcorn',
+    'portion': '1/2 C',
+    'multiplier': 1,
+    'protein': 4,
+    'carbs': 26,
+    'fat': 1.5,
+    'calories': 130,
+    'selected': false,
+  },
+  {
+    'name' : 'Butter',
+    'portion': '1 T',
+    'multiplier': 1,
+    'protein': 0,
+    'carbs': 0,
+    'fat': 11,
+    'calories': 100,
+    'selected': false,
+  },
+  {
+    'name' : 'Avocado oil',
+    'portion': '1 T',
+    'multiplier': 1,
+    'protein': 0,
+    'carbs': 0,
+    'fat': 14,
+    'calories': 130,
+    'selected': false,
+  },
+  {
+    'name' : 'Cake',
+    'portion': '1 slice ~ 227 g',
+    'multiplier': 1,
+    'protein': 7,
+    'carbs': 38,
+    'fat': 35,
+    'calories': 490,
+    'selected': false,
+  },
+  {
+    'name' : 'Roll',
+    'portion': '1 — 40 g',
+    'multiplier': 1,
+    'protein': 4,
+    'carbs': 21,
+    'fat': 3,
+    'calories': 120,
+    'selected': false,
+  },
+  {
+    'name' : 'Onion (sweet)',
+    'portion': '250 g',
+    'multiplier': 1,
+    'protein': 2,
+    'carbs': 19,
+    'fat': 0,
+    'calories': 81,
+    'selected': false,
+  },
+  {
+    'name' : 'Greek salad',
+    'portion': '2677 g',
+    'multiplier': 1,
+    'protein': 95,
+    'carbs': 269,
+    'fat': 145,
+    'calories': 2686,
+    'selected': false,
+  },
+  {
+    'name' : 'Sausage bfast sandwich',
+    'portion': '1',
+    'multiplier': 1,
+    'protein': 20,
+    'carbs': 26,
+    'fat': 31,
+    'calories': 472,
+    'selected': false,
+  },
+  {
+    'name' : 'Two Hearted Ale',
+    'portion': '12 fl oz',
+    'multiplier': 1,
+    'protein': 0,
+    'carbs': 18,
+    'fat': 0,
+    'calories': 214,
+    'selected': false,
+  },
+  {
+    'name' : 'Bulleit Bourbon',
+    'portion': '750 ml',
+    'multiplier': 1,
+    'protein': 0,
+    'carbs': 0,
+    'fat': 0,
+    'calories': 1841,
+    'selected': false,
+  },
+];
+
+// 1 lb = 453.6 g
+
+// GREEK SALAD
+// Olives —             0, 14, 41, 423
+// Cucumber —           3, 17, 1, 71
+// Chick peas —         52, 157, 15, 936
+// Feta cheese —        24, 6, 30, 420
+// Artichoke —          3, 17, 0, 80
+// Tomato —             4, 17, 1, 76
+// Onion —              5, 34, 1, 146
+// Kale / lettuce —     4, 6, 0, 40
+// Olive oil —          0, 0, 56, 476
+// White wine vinegar — 0, 0, 0, 14
+// Lemon juice —        0, 1, 0, 4
+// TOTAL =              95, 269, 145, 2686
+
+// SAUSAGE, EGG, CHEESE SANDWICH
+// P = 8 + 5 + 3 + 4 = 20
+// C = 1 + 0 + 2 + 23 = 26
+// F = 19 + 5 + 5 + 2 = 31
+// Cals = 210 + 72 + 62 + 128 = 472
+
+// Popcorn 1/2 C —————> P = 4 / C = 26 / F = 1.5 / Cal = 130
+// Butter 4 T ————> P = 0 / C = 0 / F = 44 / Cal = 400

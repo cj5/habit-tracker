@@ -1,6 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Fugaz+One&display=swap');
+
 @import 'variables';
 @import 'utilities';
 @import 'base';
+#meal-tracker {
+  @import 'meal-tracker';
+}
+
+:root {
+  font-family: $font-main;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: #222;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+#app {
+  margin-top: $header-h;
+}
+
+body {
+  margin: 0;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: $header-h;
+  background-color: #fff;
+  border-bottom: 2px solid $color-1;
+  box-shadow: 0 0 8px rgba(#000, 0.6);
+  z-index: 999;
+  nav {
+    li {
+      margin-right: 30px;
+      &:last-of-type {
+        margin-right: 0;
+      }
+    }
+    a {
+      position: relative;
+      text-decoration: none;
+      color: $color-1;
+      font-size: 16px;
+      font-weight: bold;
+      transition: 0.1s ease-in-out all;
+      &:hover {
+        color: $color-1-hov;
+      }
+      &:after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        background-color: $color-1;
+        border-radius: 50%;
+        transition: 0.3s ease-in-out all;
+      }
+    }
+    .router-link-active {
+      &:after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 7px;
+        height: 7px;
+        background-color: $color-1;
+        border-radius: 50%;
+      }
+    }
+  }
+}
 
 .id {
   font-size: 10px;
@@ -19,12 +104,6 @@ td.success {
 }
 td.fail {
   background-color: $color-fail;
-}
-
-th:not(:first-of-type),
-td:not(:first-of-type) {
-  width: 65px;
-  max-width: 65px;
 }
 
 .submit-wrap {

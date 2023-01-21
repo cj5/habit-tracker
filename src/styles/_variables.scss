@@ -1,10 +1,15 @@
+$font-main: Inter, Avenir, Helvetica, Arial, sans-serif;
+$font-title: Fugaz One, #{$font-main};
+
 $border-color: gray;
 $cell-pad: 5px 10px;
 $column-heading-color: #e3eafc;
 $th-bg-color: #eee;
 $td-active-bg-color: #fcf4d4;
-$color-success:  #e7ffed;
+$color-success: #e7ffed;
 $color-fail: #ffe7e7;
 
 $color-1: #324ca8;
-$color-1-hov: darken($color-1, 10%);
+$color-1-hov: #5e7adb;
+
+$header-h: 55px;

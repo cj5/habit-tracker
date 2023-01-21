@@ -1,9 +1,23 @@
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-import App from './App.vue'
+import { createApp } from 'vue';
+import { createPinia } from 'pinia';
+import { createRouter, createWebHashHistory } from 'vue-router';
+import HabitTracker from './pages/HabitTracker.vue';
+import MealTracker from './pages/MealTracker.vue';
+import App from './App.vue';
 
-const pinia = createPinia()
-const app = createApp(App)
+const routes = [
+  { path: '/', component: HabitTracker },
+  { path: '/meal-tracker', component: MealTracker },
+];
 
-app.use(pinia)
-app.mount('#app')
+const router = createRouter({
+  history: createWebHashHistory(),
+  routes,
+});
+
+const pinia = createPinia();
+const app = createApp(App);
+
+app.use(pinia);
+app.use(router);
+app.mount('#app');

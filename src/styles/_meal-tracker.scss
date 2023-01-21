@@ -1,0 +1,71 @@
+$border-color: #aaa;
+$cell-pad: 5px 10px;
+$column-heading-color: #e3eafc;
+
+table {
+  border-collapse: collapse;
+}
+.table-heading {
+  td {
+    font-weight: bold;
+    background-color: #eee;
+  }
+}
+td {
+  border-top: 1px solid $border-color;
+  border-left: 1px solid $border-color;
+  padding: $cell-pad;
+  &:first-of-type {
+    min-width: 180px;
+  }
+  &:last-of-type {
+    border-right: 1px solid $border-color;
+  }
+  a {
+    cursor: pointer;
+  }
+}
+.food-options {
+  tr td.selected {
+    background-color: #d2faec !important;
+  }
+}
+.food-options tr:not(:first-of-type) {
+  td:first-of-type {
+    padding: 0;
+  }
+  a {
+    flex: 1 1 auto;
+    padding: $cell-pad;
+    > * {
+      pointer-events: none;
+    }
+  }
+}
+.food-selected .portion {
+  font-size: 12px;
+  font-weight: normal;
+}
+#totals {
+  td {
+    border-top: 2px solid $border-color;
+    background-color: #fff1cc;
+    font-weight: bold;
+    &:first-of-type {
+      background-color: #ffe8ad;
+    }
+  }
+}
+#summary {
+  border-top: 2px solid $border-color;
+  background-color: #f6e6fc;
+  td {
+    &:first-of-type {
+      background-color: #f0d4fa;
+    }
+  }
+}
+input.portion {
+  width: 25px;
+  height: 80%;
+}
