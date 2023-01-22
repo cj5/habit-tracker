@@ -43,6 +43,11 @@ ul {
   color: $color-1;
 }
 
+.btn,
+a {
+  transition: 0.1s ease-in-out all;
+}
+
 .btn {
   font-weight: bold;
   background-color: $color-1;
@@ -51,7 +56,6 @@ ul {
   color: #fff;
   padding: 5px 15px 6px;
   cursor: pointer;
-  transition: 0.1s ease-in-out all;
   &:hover {
     background-color: $color-1-hov;
   }

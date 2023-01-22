@@ -24,6 +24,14 @@
   </div>
 </template>
 
+<script setup>
+import { useStore } from './store';
+
+const store = useStore();
+
+store.fetchData('foods');
+</script>
+
 <style lang="scss">
 @import 'styles/app';
 </style>

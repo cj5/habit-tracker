@@ -1,4 +1,4 @@
-export const q = (target) => {
+export function q(target) {
   const nlToArr = (els) => Array.prototype.slice.call(els);
   const node = document.querySelector.bind(document);
   const nodeList = document.querySelectorAll.bind(document);

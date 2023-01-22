@@ -44,7 +44,7 @@
               <td>{{ round(food.calories * food.multiplier) }}</td>
             </tr>
             <tr id="totals">
-              <td>TOTALS:</td>
+              <td>Totals:</td>
               <td>{{ totalProtein }}</td>
               <td>{{ totalCarbs }}</td>
               <td>{{ totalFat }}</td>
@@ -57,20 +57,48 @@
         </div>
       </div>
     </div>
+    <!-- .container  -->
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import TableHeading from '../components/meal-tracker/TableHeading.vue';
-import { foods } from '../data/foods';
+import { useStore } from '../store';
 
-const BODY_WEIGHT = 215;
-const PROTEIN_P = 0.8;
-const CARBS_P = 0.8;
-const FAT_P = 0.2;
+const store = useStore();
 
-const selectedFoods = ref([]);
+const foods = computed(() => store.foods);
+
+const selectedFoods = computed(() => store.selectedFoods);
+
+// const BODY_WEIGHT = 215;
+// const PROTEIN_P = 0.8;
+// const CARBS_P = 0.8;
+// const FAT_P = 0.2;
+
+function toggleSelect(e) {
+  const targetEl = e.target;
+  const targetIndex = e.target.dataset.index;
+
+  if (this.foods[targetIndex].selected) {
+    this.foods[targetIndex].selected = false;
+    targetEl.closest('td').classList.remove('selected');
+    const updatedArray = store.selectedFoods.filter((obj) => {
+      return obj.name !== this.foods[targetIndex].name;
+    });
+    store.selectedFoods = updatedArray;
+  } else {
+    this.foods[targetIndex].selected = true;
+    targetEl.closest('td').classList.add('selected');
+    store.selectedFoods.push(this.foods[targetIndex]);
+  }
+}
+
+function portionCalc(e, i) {
+  store.selectedFoods[i].multiplier = e.target.value;
+  // totalProtein * e.target.value;
+}
 
 function round(num) {
   return Math.round(num);
@@ -78,11 +106,10 @@ function round(num) {
 
 function calculateTotals(value) {
   let total = 0;
-  selectedFoods.value.map((food) => {
+  store.selectedFoods.map((food) => {
     console.log('food.multiplier', food[value], food.multiplier);
     total += food[value] * food.multiplier;
   });
-  // return total;
   return round(total);
 }
 
@@ -93,35 +120,4 @@ const totalCarbs = computed(() => calculateTotals('carbs'));
 const totalFat = computed(() => calculateTotals('fat'));
 
 const totalCalories = computed(() => calculateTotals('calories'));
-
-function toggleSelect(e) {
-  const targetEl = e.target;
-  const targetIndex = e.target.dataset.index;
-
-  if (foods[targetIndex].selected) {
-    foods[targetIndex].selected = false;
-    targetEl.closest('td').classList.remove('selected');
-    const updatedArray = selectedFoods.value.filter((obj) => {
-      return obj.name !== foods[targetIndex].name;
-    });
-    selectedFoods.value = updatedArray;
-  } else {
-    foods[targetIndex].selected = true;
-    targetEl.closest('td').classList.add('selected');
-    selectedFoods.value.push(foods[targetIndex]);
-  }
-}
-
-function portionCalc(e, i) {
-  console.log(e, i);
-  // console.log(JSON.stringify(selectedFoods.value, null, 2));
-  // console.log('value:', e.target.value);
-
-  let value = 0;
-
-  console.log('i', i);
-  selectedFoods.value[i].multiplier = e.target.value;
-
-  totalProtein * e.target.value;
-}
 </script>

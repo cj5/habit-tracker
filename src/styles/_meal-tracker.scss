@@ -26,6 +26,13 @@ td {
   }
 }
 .food-options {
+  tr td.select a {
+    font-weight: bold;
+    color: $color-1-hov;
+    &:hover {
+      color: $color-1;
+    }
+  }
   tr td.selected {
     background-color: #d2faec !important;
   }
