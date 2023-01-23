@@ -1,8 +1,8 @@
 <template>
-  <p v-if="text" class="alert flex aifs">
+  <div v-if="text" class="alert flex aifs">
     <ExclamationCircleIcon style="width: 20px" />
-    <span class="ml-1" v-html="text"></span>
-  </p>
+    <p class="ml-1" v-html="text"></p>
+  </div>
 </template>
 
 <script setup>

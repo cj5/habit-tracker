@@ -6,7 +6,8 @@
         <div class="day-display flex fdc ml-12">
           <div class="flex aic">
             <p class="fz-18 bold no-wrap m-0">{{ dayHighlighted }}</p>
-            <p v-if="store.today === store.dayHighlighted" class="flag ml-2 m-0">Today</p>
+            <p v-if="store.dayHighlighted === store.today" class="flag ml-2 m-0">Today</p>
+            <p v-if="store.dayHighlighted === dayjs(store.today).subtract(1, 'day').format(store.dateFormat)" class="flag ml-2 m-0">Yesterday</p>
           </div>
           <div class="mt-1">
             <button @click="navDay('prev')" @keydown.enter="navDay('prev')" class="btn-2 sm mr-1">❮</button>
@@ -107,6 +108,13 @@ const dayHighlighted = computed(() => dayjs(store.dayHighlighted).format('dddd, 
 // const CARBS_P = 0.8;
 // const FAT_P = 0.2;
 
+const alertText = {
+  submitted: 'Foods were submitted for the current day',
+  deleted: 'Data for this day has been deleted',
+  reset: 'Data reset from database',
+  unsubmitted: 'You have unsubmitted changes',
+};
+
 function toggleSelect(e) {
   const targetEl = e.target;
   const targetIndex = e.target.dataset.index;
@@ -133,11 +141,11 @@ function onSubmit() {
     data: store.selectedFoods,
   };
   if (store.selectedFoods.length) {
-    store.pushData('eaten_by_day', toPush);
-    store.hasUpdatedMealTracker = false;
+    store.pushData('eaten_by_day', toPush, alertText.submitted);
   } else {
-    store.postAlertMessage('Please select foods before submitting');
+    store.deleteData('eaten_by_day', store.dayHighlighted, alertText.deleted);
   }
+  store.hasUpdatedMealTracker = false;
 }
 
 function onClear() {
@@ -149,14 +157,15 @@ function onClear() {
 }
 
 function onRefresh() {
-  store.fetchData('eaten_by_day');
+  store.fetchData('eaten_by_day', alertText.reset);
   store.hasUpdatedMealTracker = false;
 }
 
 function navDay(direction) {
   if (store.hasUpdatedMealTracker) {
-    store.postAlertMessage('You have unsubmitted changes');
+    store.postAlertMessage(alertText.unsubmitted);
   } else {
+    store.fetchData('eaten_by_day');
     if (direction === 'prev') {
       store.dayHighlighted = dayjs(store.dayHighlighted).subtract(1, 'day').format(store.dateFormat);
     } else if (direction === 'next') {

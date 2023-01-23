@@ -5,6 +5,7 @@ const { VITE_SUPABASE_URL, VITE_SUPABASE_KEY } = import.meta.env;
 const supabase = createClient(VITE_SUPABASE_URL, VITE_SUPABASE_KEY);
 
 const DATE_FORMAT = 'YYYY-MM-DD';
+const LOADING_TEXT = 'Loading...';
 
 export const useStore = defineStore('main', {
   state: () => ({
@@ -14,6 +15,7 @@ export const useStore = defineStore('main', {
     todayId: null,
 
     alertMessage: '',
+    alertTimeoutId: null,
     dateFormat: DATE_FORMAT,
     today: dayjs().format(DATE_FORMAT),
 
@@ -24,20 +26,28 @@ export const useStore = defineStore('main', {
     hasUpdatedMealTracker: false,
   }),
   actions: {
-    async fetchData(tableName) {
+    async fetchData(tableName, alertMessage = '') {
+      this.postAlertMessage(LOADING_TEXT, true);
       try {
         let { data, error } = await supabase.from(tableName).select('*');
         this[tableName] = data;
 
+        let hasData = false;
+
         if (tableName === 'eaten_by_day') {
           for (const day of data) {
-            if (day.date === this.today) {
+            if (day.date === this.dayHighlighted) {
+              hasData = true;
               this.selectedFoods = day.data;
             }
+          }
+          if (!hasData) {
+            this.selectedFoods = [];
           }
         }
 
         for (const i of this.foods) {
+          i.selected = false;
           for (const j of this.selectedFoods) {
             if (i.name === j.name) {
               i.selected = true;
@@ -45,28 +55,55 @@ export const useStore = defineStore('main', {
           }
         }
 
+        this.clearAlertMessage();
+        this.postAlertMessage(alertMessage);
+
         if (error) console.log('ERROR:', error);
       } catch (error) {
         console.log('error:', error);
       }
     },
 
-    async pushData(tableName, toPush) {
+    async pushData(tableName, toPush, alertMessage) {
+      this.postAlertMessage(LOADING_TEXT, true);
       try {
         let { error } = await supabase.from(tableName).upsert(toPush);
-        this.postAlertMessage('Foods were submitted for the current day');
+
+        this.clearAlertMessage();
+        this.postAlertMessage(alertMessage);
 
         if (error) console.log('ERROR:', error);
       } catch (error) {
         console.log('error:', error);
       }
+    },
+
+    async deleteData(tableName, date, alertMessage) {
+      this.postAlertMessage(LOADING_TEXT, true);
+      try {
+        let { error } = await supabase.from(tableName).delete().match({ date: date });
+
+        this.clearAlertMessage();
+        this.postAlertMessage(alertMessage);
+
+        if (error) console.log('ERROR:', error);
+      } catch (error) {}
+    },
+
+    alertTimeout() {
+      this.alertTimeoutId = setTimeout(this.clearAlertMessage, 4000);
     },
 
     postAlertMessage(text, persist = false) {
       this.alertMessage = text;
       if (!persist) {
-        setTimeout(() => (this.alertMessage = ''), 5000);
+        clearTimeout(this.alertTimeoutId);
+        this.alertTimeout();
       }
+    },
+
+    clearAlertMessage() {
+      this.alertMessage = '';
     },
   },
 });
