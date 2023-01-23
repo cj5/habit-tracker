@@ -3,13 +3,13 @@
     <div class="container">
       <div class="flex aifs mb-5">
         <h2 class="heading">Meal Tracker</h2>
-        <div class="day-display flex fdc ml-12">
+        <div class="day-display flex fdc ml-6">
           <div class="flex aic">
             <p class="fz-18 bold no-wrap m-0">{{ dayHighlighted }}</p>
             <p v-if="store.dayHighlighted === store.today" class="flag ml-2 m-0">Today</p>
             <p v-if="store.dayHighlighted === dayjs(store.today).subtract(1, 'day').format(store.dateFormat)" class="flag ml-2 m-0">Yesterday</p>
           </div>
-          <div class="mt-1">
+          <div class="nav-btns">
             <button @click="navDay('prev')" @keydown.enter="navDay('prev')" class="btn-2 sm mr-1">❮</button>
             <button @click="navDay('next')" @keydown.enter="navDay('next')" class="btn-2 sm" :disabled="store.today === store.dayHighlighted ? true : false">❯</button>
           </div>
@@ -26,8 +26,17 @@
             <tr v-for="(food, index) in foods" :key="index">
               <td :class="`select ${food.selected ? 'selected' : ''}`">
                 <a class="flex jcsb aic" @click="toggleSelect($event)" @keydown.enter="toggleSelect($event)" :data-index="index">
-                  <span>{{ food.name }}</span>
-                  <span class="gray italic fz-12 ml-3">({{ food.portion }})</span>
+                  <div class="flex aic">
+                    <template v-if="food.selected">
+                      <CheckCircleIcon class="icon check" />
+                      <MinusCircleIcon class="icon minus" />
+                    </template>
+                    <template v-else>
+                      <PlusCircleIcon class="icon plus" />
+                    </template>
+                    <span>{{ food.name }}</span>
+                  </div>
+                  <span class="gray italic fw-normal fz-12 ml-3">({{ food.portion }})</span>
                 </a>
               </td>
               <td>{{ food.protein }}</td>
@@ -91,7 +100,7 @@ import TableHeading from '../components/meal-tracker/TableHeading.vue';
 import { useStore } from '../store';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { ArrowPathIcon } from '@heroicons/vue/24/outline';
+import { ArrowPathIcon, CheckCircleIcon, MinusCircleIcon, PlusCircleIcon } from '@heroicons/vue/24/outline';
 
 dayjs.extend(relativeTime);
 
@@ -112,7 +121,7 @@ const alertText = {
   submitted: 'Foods were submitted for the current day',
   deleted: 'Data for this day has been deleted',
   reset: 'Data reset from database',
-  unsubmitted: 'You have unsubmitted changes',
+  unsubmitted: 'You have unsubmitted changes. Reset or Submit changes.',
 };
 
 function toggleSelect(e) {
@@ -141,9 +150,9 @@ function onSubmit() {
     data: store.selectedFoods,
   };
   if (store.selectedFoods.length) {
-    store.pushData('eaten_by_day', toPush, alertText.submitted);
+    store.pushData('foods_eaten_by_day', toPush, alertText.submitted);
   } else {
-    store.deleteData('eaten_by_day', store.dayHighlighted, alertText.deleted);
+    store.deleteData('foods_eaten_by_day', store.dayHighlighted, alertText.deleted);
   }
   store.hasUpdatedMealTracker = false;
 }
@@ -157,7 +166,7 @@ function onClear() {
 }
 
 function onRefresh() {
-  store.fetchData('eaten_by_day', alertText.reset);
+  store.fetchData('foods_eaten_by_day', alertText.reset);
   store.hasUpdatedMealTracker = false;
 }
 
@@ -165,12 +174,13 @@ function navDay(direction) {
   if (store.hasUpdatedMealTracker) {
     store.postAlertMessage(alertText.unsubmitted);
   } else {
-    store.fetchData('eaten_by_day');
     if (direction === 'prev') {
       store.dayHighlighted = dayjs(store.dayHighlighted).subtract(1, 'day').format(store.dateFormat);
     } else if (direction === 'next') {
       store.dayHighlighted = dayjs(store.dayHighlighted).add(1, 'day').format(store.dateFormat);
     }
+    store.updateSelectedFoods(store.foods_eaten_by_day);
+    store.updateHighlightSelectedFoods();
   }
 }
 

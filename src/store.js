@@ -22,7 +22,7 @@ export const useStore = defineStore('main', {
     dayHighlighted: dayjs().format(DATE_FORMAT),
     foods: [{}],
     selectedFoods: [],
-    eaten_by_day: [{}],
+    foods_eaten_by_day: [{}],
     hasUpdatedMealTracker: false,
   }),
   actions: {
@@ -30,31 +30,19 @@ export const useStore = defineStore('main', {
       this.postAlertMessage(LOADING_TEXT, true);
       try {
         let { data, error } = await supabase.from(tableName).select('*');
-        this[tableName] = data;
 
-        let hasData = false;
-
-        if (tableName === 'eaten_by_day') {
-          for (const day of data) {
-            if (day.date === this.dayHighlighted) {
-              hasData = true;
-              this.selectedFoods = day.data;
-            }
-          }
-          if (!hasData) {
-            this.selectedFoods = [];
-          }
+        if (tableName === 'foods') {
+          const sortedData = data.sort((a, b) => a.order - b.order);
+          this[tableName] = sortedData;
+        } else {
+          this[tableName] = data;
         }
 
-        for (const i of this.foods) {
-          i.selected = false;
-          for (const j of this.selectedFoods) {
-            if (i.name === j.name) {
-              i.selected = true;
-            }
-          }
+        if (tableName === 'foods_eaten_by_day') {
+          this.updateSelectedFoods(data);
         }
 
+        this.updateHighlightSelectedFoods();
         this.clearAlertMessage();
         this.postAlertMessage(alertMessage);
 
@@ -90,8 +78,32 @@ export const useStore = defineStore('main', {
       } catch (error) {}
     },
 
+    updateSelectedFoods(data) {
+      let dayHasData = false;
+      for (const day of data) {
+        if (day.date === this.dayHighlighted) {
+          dayHasData = true;
+          this.selectedFoods = day.data;
+        }
+      }
+      if (!dayHasData) {
+        this.selectedFoods = [];
+      }
+    },
+
+    updateHighlightSelectedFoods() {
+      for (const i of this.foods) {
+        i.selected = false;
+        for (const j of this.selectedFoods) {
+          if (i.name === j.name) {
+            i.selected = true;
+          }
+        }
+      }
+    },
+
     alertTimeout() {
-      this.alertTimeoutId = setTimeout(this.clearAlertMessage, 4000);
+      this.alertTimeoutId = setTimeout(this.clearAlertMessage, 4500);
     },
 
     postAlertMessage(text, persist = false) {

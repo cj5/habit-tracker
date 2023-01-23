@@ -7,6 +7,16 @@ $column-heading-color: #e3eafc;
   padding-left: 20px;
 }
 
+.nav-btns {
+  margin-top: 5px;
+}
+
+.action-btns {
+  position: absolute;
+  top: -10px;
+  right: 0;
+}
+
 table {
   border-collapse: collapse;
 }
@@ -38,8 +48,45 @@ td {
       color: $color-1;
     }
   }
+  tr td.select {
+    .icon {
+      margin-right: 5px;
+      width: 18px;
+      height: 18px;
+    }
+    .plus {
+      display: none;
+    }
+    &:hover {
+      .plus {
+        display: block;
+        color: $color-green;
+      }
+    }
+  }
   tr td.selected {
-    background-color: #d2faec !important;
+    background-color: $color-1-hov !important;
+    a {
+      color: #fff;
+      &:hover {
+        color: $color-1-lt;
+      }
+    }
+    .gray {
+      color: #ccc;
+    }
+    .minus {
+      display: none;
+    }
+    &:hover {
+      .check {
+        display: none;
+      }
+      .minus {
+        display: block;
+        color: $color-red;
+      }
+    }
   }
 }
 .food-options tr:not(:first-of-type) {
@@ -80,10 +127,4 @@ td {
 input.portion {
   width: 25px;
   height: 80%;
-}
-
-.action-btns {
-  position: absolute;
-  top: -10px;
-  right: 0;
 }

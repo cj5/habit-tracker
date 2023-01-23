@@ -1,3 +1,24 @@
+Meal Tracker:
+-------------
+
+[X] When nav'ing days, don't need to make new call to db, just use store
+
+[ ] Add / remove food items
+
+[ ] Allow updating of food's nutrition values
+
+[ ] Deploy app w CI
+
+[ ] Add data visualization
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%
+
 [ ] Week switching — nav arrows, date picker
 
 [ ] Hook up to DB
