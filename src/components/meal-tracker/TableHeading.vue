@@ -1,6 +1,6 @@
 <template>
   <tr class="table-heading">
-    <td class="flex-jcsb-aic">
+    <td class="flex jcsb aic">
       Food
       <span class="portion" v-if="props.servings">(Servings)</span>
     </td>

@@ -1,10 +1,10 @@
 <template>
   <div class="mb-8">
-    <div class="flex-fdc-aic">
+    <div class="flex fdc aic">
       <button class="btn" @click="onSubmit" @keydown.enter="onSubmit">Submit</button>
     </div>
 
-    <div class="flex-fdc-aic">
+    <div class="flex fdc aic">
       <button class="btn my-2" @click="onGet" @keydown.enter="onGet">Get Data</button>
       <p>{{ getValue }}</p>
     </div>

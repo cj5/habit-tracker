@@ -11,5 +11,11 @@ $color-fail: #ffe7e7;
 
 $color-1: #324ca8;
 $color-1-hov: #5e7adb;
+$color-1-lt: lighten($color-1, 47%);
+$color-2: #ffe8ad;
+$color-2-hov: #fff1cc;
+$color-disabled: #ccc;
 
 $header-h: 55px;
+
+$bd-r-1: 5px;

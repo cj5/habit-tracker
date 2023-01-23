@@ -1,7 +1,20 @@
 <template>
   <div id="meal-tracker">
     <div class="container">
-      <h2 class="heading mb-3">Meal Tracker</h2>
+      <div class="flex aifs mb-5">
+        <h2 class="heading">Meal Tracker</h2>
+        <div class="day-display flex fdc ml-12">
+          <div class="flex aic">
+            <p class="fz-18 bold no-wrap m-0">{{ dayHighlighted }}</p>
+            <p v-if="store.today === store.dayHighlighted" class="flag ml-2 m-0">Today</p>
+          </div>
+          <div class="mt-1">
+            <button @click="navDay('prev')" @keydown.enter="navDay('prev')" class="btn-2 sm mr-1">❮</button>
+            <button @click="navDay('next')" @keydown.enter="navDay('next')" class="btn-2 sm" :disabled="store.today === store.dayHighlighted ? true : false">❯</button>
+          </div>
+        </div>
+      </div>
+
       <div class="flex">
         <div class="mr-5">
           <h3 class="subheading">Foods list:</h3>
@@ -10,8 +23,8 @@
             <TableHeading />
 
             <tr v-for="(food, index) in foods" :key="index">
-              <td class="select">
-                <a class="flex-jcsb-aic" @click="toggleSelect($event)" :data-index="index">
+              <td :class="`select ${food.selected ? 'selected' : ''}`">
+                <a class="flex jcsb aic" @click="toggleSelect($event)" @keydown.enter="toggleSelect($event)" :data-index="index">
                   <span>{{ food.name }}</span>
                   <span class="gray italic fz-12 ml-3">({{ food.portion }})</span>
                 </a>
@@ -25,17 +38,27 @@
         </div>
 
         <div>
-          <h3 class="subheading">Foods selected:</h3>
+          <div class="p-rel">
+            <h3 class="subheading">Foods selected:</h3>
+
+            <div class="action-btns ml-3">
+              <button class="btn-2 svg mr-1" @click="onRefresh" @keydown.enter="onRefresh" :disabled="store.hasUpdatedMealTracker ? false : true">
+                <ArrowPathIcon />
+              </button>
+              <button class="btn-2 mr-1" @click="onClear" @keydown.enter="onClear" :disabled="store.selectedFoods.length > 0 ? false : true">Clear</button>
+              <button class="btn submit" @click="onSubmit" @keydown.enter="onSubmit" :disabled="store.hasUpdatedMealTracker ? false : true">Submit</button>
+            </div>
+          </div>
 
           <table class="food-selected">
             <TableHeading servings />
 
             <tr v-for="(food, index) in selectedFoods" :key="index">
-              <td class="flex-jcsb-aic">
+              <td class="flex jcsb aic">
                 <span style="margin-right: 10px">{{ food.name }}</span>
-                <div class="flex-jcsb-aic">
+                <div class="flex jcsb aic">
                   <span style="margin-right: 4px">x</span>
-                  <input @input="portionCalc($event, index)" type="text" value="1" class="portion" />
+                  <input type="text" :value="food.multiplier" @input="portionCalc($event, index)" class="portion" />
                 </div>
               </td>
               <td>{{ round(food.protein * food.multiplier) }}</td>
@@ -65,12 +88,19 @@
 import { computed } from 'vue';
 import TableHeading from '../components/meal-tracker/TableHeading.vue';
 import { useStore } from '../store';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import { ArrowPathIcon } from '@heroicons/vue/24/outline';
+
+dayjs.extend(relativeTime);
 
 const store = useStore();
 
 const foods = computed(() => store.foods);
 
 const selectedFoods = computed(() => store.selectedFoods);
+
+const dayHighlighted = computed(() => dayjs(store.dayHighlighted).format('dddd, MMMM D, YYYY'));
 
 // const BODY_WEIGHT = 215;
 // const PROTEIN_P = 0.8;
@@ -93,11 +123,51 @@ function toggleSelect(e) {
     targetEl.closest('td').classList.add('selected');
     store.selectedFoods.push(this.foods[targetIndex]);
   }
+
+  store.hasUpdatedMealTracker = true;
+}
+
+function onSubmit() {
+  const toPush = {
+    date: store.dayHighlighted,
+    data: store.selectedFoods,
+  };
+  if (store.selectedFoods.length) {
+    store.pushData('eaten_by_day', toPush);
+    store.hasUpdatedMealTracker = false;
+  } else {
+    store.postAlertMessage('Please select foods before submitting');
+  }
+}
+
+function onClear() {
+  store.selectedFoods = [];
+  for (const food of store.foods) {
+    food.selected = false;
+  }
+  store.hasUpdatedMealTracker = true;
+}
+
+function onRefresh() {
+  store.fetchData('eaten_by_day');
+  store.hasUpdatedMealTracker = false;
+}
+
+function navDay(direction) {
+  if (store.hasUpdatedMealTracker) {
+    store.postAlertMessage('You have unsubmitted changes');
+  } else {
+    if (direction === 'prev') {
+      store.dayHighlighted = dayjs(store.dayHighlighted).subtract(1, 'day').format(store.dateFormat);
+    } else if (direction === 'next') {
+      store.dayHighlighted = dayjs(store.dayHighlighted).add(1, 'day').format(store.dateFormat);
+    }
+  }
 }
 
 function portionCalc(e, i) {
   store.selectedFoods[i].multiplier = e.target.value;
-  // totalProtein * e.target.value;
+  store.hasUpdatedMealTracker = true;
 }
 
 function round(num) {
@@ -107,7 +177,7 @@ function round(num) {
 function calculateTotals(value) {
   let total = 0;
   store.selectedFoods.map((food) => {
-    console.log('food.multiplier', food[value], food.multiplier);
+    // console.log('food.multiplier', food[value], food.multiplier);
     total += food[value] * food.multiplier;
   });
   return round(total);

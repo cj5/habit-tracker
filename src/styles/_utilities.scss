@@ -1,4 +1,7 @@
-@for $i from 0 through 10 {
+@for $i from 0 through 20 {
+  .m-#{$i} {
+    margin: #{$i * 10}px !important;
+  }
   .mt-#{$i} {
     margin-top: #{$i * 10}px !important;
   }
@@ -18,6 +21,9 @@
   .mx-#{$i} {
     margin-left: #{$i * 10}px !important;
     margin-right: #{$i * 10}px !important;
+  }
+  .p-#{$i} {
+    padding: #{$i * 10}px !important;
   }
   .pt-#{$i} {
     padding-top: #{$i * 10}px !important;
@@ -54,10 +60,6 @@
   padding: 0 30px;
 }
 
-.fz-12 {
-  font-size: 12px !important;
-}
-
 .w-100 {
   width: 100%;
 }
@@ -74,26 +76,31 @@
 .flex {
   display: flex !important;
 }
-.flex-jcfe,
-.flex-jcsb,
-.flex-fdc-aic,
-.flex-jcsb-aic {
-  display: flex;
+.fdc {
+  flex-direction: column;
 }
-.flex-jcfe {
+.jcc {
+  justify-content: center;
+}
+.jcsb {
+  justify-content: space-between;
+}
+.jcfe {
   justify-content: flex-end;
 }
-.flex-jcsb {
-  justify-content: space-between;
+.jcfs {
+  justify-content: flex-start;
 }
-.flex-jcsb-aic {
-  justify-content: space-between;
+.aic {
   align-items: center;
 }
-.flex-fdc-aic {
-  flex-direction: column;
-  align-items: start;
+.aife {
+  align-items: flex-end;
 }
+.aifs {
+  align-items: flex-start;
+}
+
 .p-rel {
   position: relative;
 }

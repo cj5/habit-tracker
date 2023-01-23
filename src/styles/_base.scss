@@ -34,7 +34,7 @@ ul {
 }
 
 .heading {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 400;
   font-style: italic;
 }
@@ -51,13 +51,80 @@ a {
 .btn {
   font-weight: bold;
   background-color: $color-1;
-  border: 1px solid $color-1;
+  border: 2px solid $color-1;
   border-radius: 20px;
   color: #fff;
   padding: 5px 15px 6px;
   cursor: pointer;
   &:hover {
     background-color: $color-1-hov;
+  }
+  &:disabled {
+    background-color: $color-disabled;
+    border-color: $color-disabled;
+    &:hover {
+      background-color: $color-disabled;
+    }
+  }
+}
+.btn-2 {
+  @extend .btn;
+  background-color: #fff;
+  color: $color-1;
+  &:hover {
+    background-color: $color-1-lt;
+  }
+  &:disabled {
+    background-color: #fff;
+    border-color: $color-disabled;
+    color: $color-disabled;
+    &:hover {
+      background-color: #fff;
+    }
+  }
+}
+[class*='btn'] {
+  &.sm {
+    padding: 2px 8px 3px;
+  }
+  &.svg {
+    > * {
+      position: relative;
+      top: 2px;
+      stroke-width: 3px;
+      width: 13px;
+      height: 13px;
+    }
+  }
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.flag {
+  background-color: $color-2;
+  color: $color-1;
+  font-weight: bold;
+  font-style: italic;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: $bd-r-1;
+}
+
+.alert {
+  position: fixed;
+  top: $header-h + 20px;
+  right: 20px;
+  max-width: 500px;
+  background-color: rgba($color-1, 0.9);
+  color: #fff;
+  font-size: 16px;
+  padding: 6px 12px 6px 8px;
+  border-radius: $bd-r-1;
+  z-index: 9999;
+  svg {
+    flex: 0 0 auto;
+    stroke-width: 2px;
   }
 }
 

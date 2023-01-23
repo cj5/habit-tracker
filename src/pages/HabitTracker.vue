@@ -32,7 +32,7 @@
       </table>
     </div>
 
-    <div class="submit-wrap flex-jcfe mt-2">
+    <div class="submit-wrap flex jcfe mt-2">
       <button @click="submitWeek" class="btn">Submit Week</button>
     </div>
   </div>
