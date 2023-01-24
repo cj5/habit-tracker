@@ -1,13 +1,19 @@
 Meal Tracker:
 -------------
 
-[X] When nav'ing days, don't need to make new call to db, just use store
+[X] When nav'ing days, pull from store instead of db
+
+[X] When resetting days, pull from store instead of db
+
+[ ] Add authentication
 
 [ ] Add / remove food items
 
 [ ] Allow updating of food's nutrition values
 
 [ ] Deploy app w CI
+
+[ ] Add calendar date picker
 
 [ ] Add data visualization
 

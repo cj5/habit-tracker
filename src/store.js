@@ -20,9 +20,9 @@ export const useStore = defineStore('main', {
     today: dayjs().format(DATE_FORMAT),
 
     dayHighlighted: dayjs().format(DATE_FORMAT),
-    foods: [{}],
+    foods: [],
     selectedFoods: [],
-    foods_eaten_by_day: [{}],
+    foods_eaten_by_day: [],
     hasUpdatedMealTracker: false,
   }),
   actions: {
@@ -32,8 +32,7 @@ export const useStore = defineStore('main', {
         let { data, error } = await supabase.from(tableName).select('*');
 
         if (tableName === 'foods') {
-          const sortedData = data.sort((a, b) => a.order - b.order);
-          this[tableName] = sortedData;
+          this[tableName] = data.sort((a, b) => a.order - b.order);
         } else {
           this[tableName] = data;
         }
@@ -83,7 +82,7 @@ export const useStore = defineStore('main', {
       for (const day of data) {
         if (day.date === this.dayHighlighted) {
           dayHasData = true;
-          this.selectedFoods = day.data;
+          this.selectedFoods = day.data.sort((a, b) => a.order - b.order);
         }
       }
       if (!dayHasData) {

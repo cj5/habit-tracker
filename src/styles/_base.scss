@@ -116,8 +116,7 @@ a {
   top: $header-h + 20px;
   right: 20px;
   max-width: 500px;
-  background-color: rgba($color-1, 0.9);
-  color: #fff;
+  background-color: rgba(darken($color-2, 8%), 0.9);
   padding: 6px 12px 6px 8px;
   border-radius: $bd-r-1;
   z-index: 9999;
@@ -128,6 +127,7 @@ a {
   }
   p {
     margin-top: 1px;
+    font-weight: bold;
   }
 }
 

@@ -1,7 +1,7 @@
 <template>
   <div id="meal-tracker">
     <div class="container">
-      <div class="flex aifs mb-5">
+      <div class="flex aifs mb-2">
         <h2 class="heading">Meal Tracker</h2>
         <div class="day-display flex fdc ml-6">
           <div class="flex aic">
@@ -120,8 +120,8 @@ const dayHighlighted = computed(() => dayjs(store.dayHighlighted).format('dddd, 
 const alertText = {
   submitted: 'Foods were submitted for the current day',
   deleted: 'Data for this day has been deleted',
-  reset: 'Data reset from database',
-  unsubmitted: 'You have unsubmitted changes. Reset or Submit changes.',
+  refresh: 'Displayed data has been reset to match database records',
+  unsubmitted: 'You have unsubmitted changes. Refresh or Submit changes.',
 };
 
 function toggleSelect(e) {
@@ -138,7 +138,7 @@ function toggleSelect(e) {
   } else {
     this.foods[targetIndex].selected = true;
     targetEl.closest('td').classList.add('selected');
-    store.selectedFoods.push(this.foods[targetIndex]);
+    store.selectedFoods = [...store.selectedFoods, this.foods[targetIndex]];
   }
 
   store.hasUpdatedMealTracker = true;
@@ -166,7 +166,16 @@ function onClear() {
 }
 
 function onRefresh() {
-  store.fetchData('foods_eaten_by_day', alertText.reset);
+  const refreshArray = store.foods_eaten_by_day.filter((day) => {
+    return day.date === store.dayHighlighted;
+  });
+  if (refreshArray.length) {
+    store.selectedFoods = refreshArray[0].data;
+  } else {
+    store.selectedFoods = [];
+  }
+  store.updateHighlightSelectedFoods();
+  store.postAlertMessage(alertText.refresh);
   store.hasUpdatedMealTracker = false;
 }
 
@@ -196,7 +205,6 @@ function round(num) {
 function calculateTotals(value) {
   let total = 0;
   store.selectedFoods.map((food) => {
-    // console.log('food.multiplier', food[value], food.multiplier);
     total += food[value] * food.multiplier;
   });
   return round(total);
