@@ -78,14 +78,12 @@ export const useStore = defineStore('main', {
     },
 
     updateSelectedFoods(data) {
-      let dayHasData = false;
-      for (const day of data) {
-        if (day.date === this.dayHighlighted) {
-          dayHasData = true;
-          this.selectedFoods = day.data.sort((a, b) => a.order - b.order);
-        }
-      }
-      if (!dayHasData) {
+      const day = data.filter((obj) => obj.date === this.dayHighlighted);
+      if (day.length) {
+        this.selectedFoods = day[0].data.sort((a, b) => {
+          return a.order - b.order;
+        });
+      } else {
         this.selectedFoods = [];
       }
     },

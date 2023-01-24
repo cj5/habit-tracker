@@ -140,7 +140,6 @@ function toggleSelect(e) {
     targetEl.closest('td').classList.add('selected');
     store.selectedFoods = [...store.selectedFoods, this.foods[targetIndex]];
   }
-
   store.hasUpdatedMealTracker = true;
 }
 
@@ -166,14 +165,7 @@ function onClear() {
 }
 
 function onRefresh() {
-  const refreshArray = store.foods_eaten_by_day.filter((day) => {
-    return day.date === store.dayHighlighted;
-  });
-  if (refreshArray.length) {
-    store.selectedFoods = refreshArray[0].data;
-  } else {
-    store.selectedFoods = [];
-  }
+  store.updateSelectedFoods(store.foods_eaten_by_day);
   store.updateHighlightSelectedFoods();
   store.postAlertMessage(alertText.refresh);
   store.hasUpdatedMealTracker = false;
