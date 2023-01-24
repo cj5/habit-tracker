@@ -89,6 +89,8 @@
           <p class="gray">1 lb = 453.6 g</p>
         </div>
       </div>
+
+      <Chart />
     </div>
     <!-- .container  -->
   </div>
@@ -97,6 +99,7 @@
 <script setup>
 import { computed } from 'vue';
 import TableHeading from '../components/meal-tracker/TableHeading.vue';
+import Chart from '../components/meal-tracker/Chart.vue';
 import { useStore } from '../store';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';

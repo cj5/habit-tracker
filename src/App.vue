@@ -19,7 +19,7 @@
     </div>
   </header>
 
-  <div class="pt-4 pb-8">
+  <div v-if="store.fetchedMealTrackerData" class="pt-4 pb-8">
     <router-view />
   </div>
 
