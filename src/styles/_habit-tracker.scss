@@ -1,0 +1,24 @@
+td,
+th {
+  &:first-of-type {
+    min-width: 120px;
+  }
+  &:last-of-type {
+    border-right: 1px solid $border-color;
+    border-left: 3px solid $border-color;
+  }
+}
+
+tr {
+  &:not(:first-of-type) {
+    td:first-of-type {
+      background-color: $column-heading-color;
+    }
+  }
+  &:last-of-type {
+    td {
+      border-top: 3px solid $border-color;
+      border-bottom: 1px solid $border-color;
+    }
+  }
+}

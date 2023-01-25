@@ -1,39 +1,41 @@
 <template>
-  <div class="container">
-    <DatabaseTesting />
+  <div id="habit-tracker">
+    <div class="container">
+      <DatabaseTesting />
 
-    <div class="nav-wrap flex mb-2">
-      <button @click="prevWeek" class="btn mr-1">Prev</button>
-      <button @click="nextWeek" class="btn">Next</button>
-    </div>
+      <div class="nav-wrap flex mb-2">
+        <button @click="prevWeek" class="btn mr-1">Prev</button>
+        <button @click="nextWeek" class="btn">Next</button>
+      </div>
 
-    <div class="table-wrap">
-      <table>
-        <tr class="table-heading">
-          <th>Habit</th>
-          <template v-for="(date, i) in store.displayedDates" :key="i">
-            <th :data-date-id="date.id" :class="setActiveDayClass(date.id, store.todayId)" class="fz-12">
-              {{ date.title }}
-            </th>
+      <div class="table-wrap">
+        <table>
+          <tr class="table-heading">
+            <th>Habit</th>
+            <template v-for="(date, i) in store.displayedDates" :key="i">
+              <th :data-date-id="date.id" :class="setActiveDayClass(date.id, store.todayId)" class="fz-12">
+                {{ date.title }}
+              </th>
+            </template>
+            <th>Totals</th>
+          </tr>
+          <template v-for="(habit, i) in habits" :key="i">
+            <TableRow :heading="habit.title" :habit-id="i" />
           </template>
-          <th>Totals</th>
-        </tr>
-        <template v-for="(habit, i) in habits" :key="i">
-          <TableRow :heading="habit.title" :habit-id="i" />
-        </template>
-        <tr>
-          <td>Totals</td>
-          <td v-for="(date, i) in store.displayedDates" :key="i">
-            <span class="bold">{{ dayTotals(date.id) }}</span> /
-            {{ habitsAmount() }}
-          </td>
-          <td><span class="bold">#</span> / {{ habitsAmount() }}</td>
-        </tr>
-      </table>
-    </div>
+          <tr>
+            <td>Totals</td>
+            <td v-for="(date, i) in store.displayedDates" :key="i">
+              <span class="bold">{{ dayTotals(date.id) }}</span> /
+              {{ habitsAmount() }}
+            </td>
+            <td><span class="bold">#</span> / {{ habitsAmount() }}</td>
+          </tr>
+        </table>
+      </div>
 
-    <div class="submit-wrap flex jcfe mt-2">
-      <button @click="submitWeek" class="btn">Submit Week</button>
+      <div class="submit-wrap flex jcfe mt-2">
+        <button @click="submitWeek" class="btn">Submit Week</button>
+      </div>
     </div>
   </div>
 </template>

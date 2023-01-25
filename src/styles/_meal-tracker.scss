@@ -1,7 +1,3 @@
-$border-color: #aaa;
-$cell-pad: 5px 10px;
-$column-heading-color: #e3eafc;
-
 .day-display {
   border-left: 2px solid #ccc;
   padding-left: 20px;
@@ -17,6 +13,12 @@ $column-heading-color: #e3eafc;
   right: 0;
 }
 
+.no-entries {
+  background-color: #fff;
+  border-right: 1px solid $border-color;
+  text-align: center;
+}
+
 table {
   border-collapse: collapse;
 }
@@ -26,13 +28,27 @@ table {
     background-color: #eee;
   }
 }
+th:first-of-type {
+  min-width: 180px;
+}
+tr:first-of-type {
+  th {
+    border-bottom: 2px solid $border-color;
+    &:last-of-type {
+      border-right: 1px solid $border-color;
+    }
+  }
+}
+tr:last-of-type {
+  th,
+  td {
+    border-bottom: 1px solid $border-color;
+  }
+}
 td {
   border-top: 1px solid $border-color;
   border-left: 1px solid $border-color;
   padding: $cell-pad;
-  &:first-of-type {
-    min-width: 180px;
-  }
   &:last-of-type {
     border-right: 1px solid $border-color;
   }
@@ -41,14 +57,14 @@ td {
   }
 }
 .food-options {
-  tr td.select a {
+  tr th.select a {
     font-weight: bold;
     color: $color-1-hov;
     &:hover {
       color: $color-1;
     }
   }
-  tr td.select {
+  tr th.select {
     .icon {
       margin-right: 5px;
       width: 18px;
@@ -64,7 +80,7 @@ td {
       }
     }
   }
-  tr td.selected {
+  tr th.selected {
     background-color: $color-1-hov !important;
     a {
       color: #fff;
@@ -90,8 +106,11 @@ td {
   }
 }
 .food-options tr:not(:first-of-type) {
-  td:first-of-type {
+  th {
     padding: 0;
+    &:first-of-type {
+      background-color: $color-1-lt;
+    }
   }
   a {
     flex: 1 1 auto;
@@ -101,27 +120,26 @@ td {
     }
   }
 }
-.food-selected .portion {
-  font-size: 12px;
-  font-weight: normal;
+.food-selected {
+  tr:not(:first-of-type) {
+    th:first-of-type {
+      background-color: $color-1-lt;
+    }
+  }
+  .portion {
+    font-size: 12px;
+    font-weight: normal;
+  }
 }
 #totals {
+  th,
   td {
     border-top: 2px solid $border-color;
     background-color: $color-2-hov;
     font-weight: bold;
-    &:first-of-type {
-      background-color: $color-2;
-    }
   }
-}
-#summary {
-  border-top: 2px solid $border-color;
-  background-color: #f6e6fc;
-  td {
-    &:first-of-type {
-      background-color: #f0d4fa;
-    }
+  th {
+    background-color: $color-2;
   }
 }
 input.portion {

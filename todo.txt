@@ -5,6 +5,8 @@ Meal Tracker:
 
 [X] When resetting days, pull from store instead of db
 
+[ ] BUG: resetting days after submitting new data
+
 [ ] Add authentication
 
 [ ] Add / remove food items

@@ -24,7 +24,7 @@
             <TableHeading />
 
             <tr v-for="(food, index) in foods" :key="index">
-              <td :class="`select ${food.selected ? 'selected' : ''}`">
+              <th :class="`select ${food.selected ? 'selected' : ''}`">
                 <a class="flex jcsb aic" @click="toggleSelect($event)" @keydown.enter="toggleSelect($event)" :data-index="index">
                   <div class="flex aic">
                     <template v-if="food.selected">
@@ -38,7 +38,7 @@
                   </div>
                   <span class="gray italic fw-normal fz-12 ml-3">({{ food.portion }})</span>
                 </a>
-              </td>
+              </th>
               <td>{{ food.protein }}</td>
               <td>{{ food.carbs }}</td>
               <td>{{ food.fat }}</td>
@@ -63,21 +63,27 @@
           <table class="food-selected">
             <TableHeading servings />
 
-            <tr v-for="(food, index) in selectedFoods" :key="index">
-              <td class="flex jcsb aic">
-                <span style="margin-right: 10px">{{ food.name }}</span>
+            <tr v-if="store.selectedFoods.length === 0">
+              <td colspan="5" class="no-entries italic gray">No entries</td>
+            </tr>
+
+            <tr v-else v-for="(food, index) in selectedFoods" :key="index">
+              <th>
                 <div class="flex jcsb aic">
-                  <span style="margin-right: 4px">x</span>
-                  <input type="text" :value="food.multiplier" @input="portionCalc($event, index)" class="portion" />
+                  <span style="margin-right: 10px">{{ food.name }}</span>
+                  <div class="flex jcsb aic">
+                    <span style="margin-right: 4px">x</span>
+                    <input type="text" :value="food.multiplier" @input="portionCalc($event, index)" class="portion" />
+                  </div>
                 </div>
-              </td>
+              </th>
               <td>{{ round(food.protein * food.multiplier) }}</td>
               <td>{{ round(food.carbs * food.multiplier) }}</td>
               <td>{{ round(food.fat * food.multiplier) }}</td>
               <td>{{ round(food.calories * food.multiplier) }}</td>
             </tr>
             <tr id="totals">
-              <td>Totals:</td>
+              <th>Totals:</th>
               <td>{{ totalProtein }}</td>
               <td>{{ totalCarbs }}</td>
               <td>{{ totalFat }}</td>
@@ -123,7 +129,7 @@ const dayHighlighted = computed(() => dayjs(store.dayHighlighted).format('dddd, 
 const alertText = {
   submitted: 'Foods were submitted for the current day',
   deleted: 'Data for this day has been deleted',
-  refresh: 'Displayed data has been reset to match database records',
+  refresh: 'Displayed data has been reset to match state on page load (BUG)',
   unsubmitted: 'You have unsubmitted changes. Refresh or Submit changes.',
 };
 
@@ -133,14 +139,14 @@ function toggleSelect(e) {
 
   if (this.foods[targetIndex].selected) {
     this.foods[targetIndex].selected = false;
-    targetEl.closest('td').classList.remove('selected');
+    targetEl.closest('.select').classList.remove('selected');
     const updatedArray = store.selectedFoods.filter((obj) => {
       return obj.name !== this.foods[targetIndex].name;
     });
     store.selectedFoods = updatedArray;
   } else {
     this.foods[targetIndex].selected = true;
-    targetEl.closest('td').classList.add('selected');
+    targetEl.closest('.select').classList.add('selected');
     store.selectedFoods = [...store.selectedFoods, this.foods[targetIndex]];
   }
   store.hasUpdatedMealTracker = true;

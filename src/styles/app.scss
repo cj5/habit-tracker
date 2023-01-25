@@ -3,6 +3,9 @@
 @import 'variables';
 @import 'utilities';
 @import 'base';
+#habit-tracker {
+  @import 'habit-tracker';
+}
 #meal-tracker {
   @import 'meal-tracker';
 }

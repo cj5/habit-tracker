@@ -74,8 +74,9 @@ const chartOptions = {
   },
 };
 
-daysTotalCalories.forEach((calories) => {
-  if (calories > 1800) {
+chartData.value.datasets[0].data.forEach((value) => {
+  if (value > 1800) {
+    // if (value < 140) {
     chartData.value.datasets[0].backgroundColor.push('#ff0000');
   } else {
     chartData.value.datasets[0].backgroundColor.push('#324ca8');
