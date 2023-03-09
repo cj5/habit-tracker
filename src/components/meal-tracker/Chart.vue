@@ -11,10 +11,16 @@ import { useStore } from '../../store';
 import dayjs from 'dayjs';
 import { Line } from 'vue-chartjs';
 import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale } from 'chart.js';
+import annotationPlugin from 'chartjs-plugin-annotation';
 
 ChartJS.register(Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale);
+ChartJS.register(annotationPlugin);
 
 const store = useStore();
+
+const CALORIE_LIMIT = 1800;
+const COLOR_SUCCESS = '66, 207, 94';
+const COLOR_FAILURE = '255, 77, 61';
 
 const daysTotalCalories = computed(() => {
   let returnVal = [];
@@ -41,27 +47,11 @@ const chartData = computed(() => {
         // data: daysTotalProtein,
         data: daysTotalCalories.value,
         borderWidth: 1,
+        borderColor: '#aaa',
       },
     ],
   };
 });
-
-function updateDataPointColoring() {
-  chartData.value.datasets[0].data.forEach((value) => {
-    if (value > 1800) {
-      // if (value < 140) {
-      chartData.value.datasets[0].backgroundColor.push('#ff4e3d');
-    } else {
-      chartData.value.datasets[0].backgroundColor.push('#42cf5e');
-    }
-  });
-}
-updateDataPointColoring();
-
-watch(
-  () => store.foods_eaten_by_day,
-  () => updateDataPointColoring()
-);
 
 const chartOptions = {
   responsive: true,
@@ -76,6 +66,43 @@ const chartOptions = {
         boxWidth: 0,
       },
     },
+    annotation: {
+      annotations: [
+        // SUCCESS
+        {
+          type: 'box',
+          xMin: 0,
+          yMin: 0,
+          yMax: CALORIE_LIMIT,
+          backgroundColor: `rgba(${COLOR_SUCCESS}, 0.075)`,
+          borderColor: '#aaa',
+        },
+        // FAILURE
+        {
+          type: 'box',
+          xMin: 0,
+          yMin: CALORIE_LIMIT + 1,
+          backgroundColor: `rgba(${COLOR_FAILURE}, 0.075)`,
+          borderColor: '#aaa',
+        },
+      ],
+    },
   },
 };
+
+function updateDataPointColoring() {
+  chartData.value.datasets[0].data.forEach((value) => {
+    if (value <= CALORIE_LIMIT) {
+      chartData.value.datasets[0].backgroundColor.push(`rgb(${COLOR_SUCCESS})`);
+    } else {
+      chartData.value.datasets[0].backgroundColor.push(`rgb(${COLOR_FAILURE})`);
+    }
+  });
+}
+updateDataPointColoring();
+
+watch(
+  () => store.foods_eaten_by_day,
+  () => updateDataPointColoring()
+);
 </script>

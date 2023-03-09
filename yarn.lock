@@ -275,6 +275,11 @@ chart.js@^4.2.0:
   dependencies:
     "@kurkle/color" "^0.3.0"
 
+chartjs-plugin-annotation@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/chartjs-plugin-annotation/-/chartjs-plugin-annotation-2.1.2.tgz#8c307c931fda735a1acf1b606ad0e3fd7d96299b"
+  integrity sha512-kmEp2WtpogwnKKnDPO3iO3mVwvVGtmG5BkZVtAEZm5YzJ9CYxojjYEgk7OTrFbJ5vU098b84UeJRe8kRfNcq5g==
+
 "chokidar@>=3.0.0 <4.0.0", chokidar@^3.5.1:
   version "3.5.3"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.5.3.tgz#1cf37c8707b932bd1af1ae22c0432e2acd1903bd"
