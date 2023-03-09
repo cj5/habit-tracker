@@ -120,15 +120,15 @@ td {
     }
   }
 }
+.servings {
+  font-size: 12px;
+  font-weight: normal;
+}
 .food-selected {
   tr:not(:first-of-type) {
     th:first-of-type {
       background-color: $color-1-lt;
     }
-  }
-  .portion {
-    font-size: 12px;
-    font-weight: normal;
   }
 }
 #totals {

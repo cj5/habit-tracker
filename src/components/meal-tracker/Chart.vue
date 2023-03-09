@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { computed, watch } from 'vue';
 import { useStore } from '../../store';
 import dayjs from 'dayjs';
 import { Line } from 'vue-chartjs';
@@ -16,36 +16,22 @@ ChartJS.register(Title, Tooltip, Legend, LineElement, PointElement, CategoryScal
 
 const store = useStore();
 
-const days = ref(store.foods_eaten_by_day);
-
-console.log(days.value.length);
-
-const foodOneProtein = [];
-
-days.value.map((day) => {
-  foodOneProtein.push(day.data[0].protein);
-});
-
-let daysTotalProtein = [];
-let daysTotalCalories = [];
-store.foods_eaten_by_day.forEach(() => {
-  daysTotalProtein.push(0);
-  daysTotalCalories.push(0);
-});
-
-days.value.forEach((day, i) => {
-  day.data.map((item) => {
-    daysTotalProtein[i] += Math.round(item.protein * item.multiplier);
-    daysTotalCalories[i] += Math.round(item.calories * item.multiplier);
+const daysTotalCalories = computed(() => {
+  let returnVal = [];
+  store.foods_eaten_by_day.forEach(() => {
+    returnVal.push(0);
   });
+  store.foods_eaten_by_day.forEach((day, i) => {
+    day.data.map((item) => {
+      returnVal[i] += Math.round(item.calories * item.multiplier);
+    });
+  });
+  return returnVal;
 });
-
-console.log(daysTotalProtein);
-console.log(daysTotalCalories);
 
 const chartData = computed(() => {
   return {
-    labels: days.value.map((day) => dayjs(day.date).format('ddd, MMM D')),
+    labels: store.foods_eaten_by_day.map((day) => dayjs(day.date).format('ddd, MMM D')),
     datasets: [
       {
         // label: 'Total protein',
@@ -53,11 +39,30 @@ const chartData = computed(() => {
         // backgroundColor: '#324ca8',
         backgroundColor: [],
         // data: daysTotalProtein,
-        data: daysTotalCalories,
+        data: daysTotalCalories.value,
+        borderWidth: 1,
       },
     ],
   };
 });
+
+function updateDataPointColoring() {
+  chartData.value.datasets[0].data.forEach((value) => {
+    if (value > 1800) {
+      // if (value < 140) {
+      chartData.value.datasets[0].backgroundColor.push('#ff4e3d');
+    } else {
+      chartData.value.datasets[0].backgroundColor.push('#42cf5e');
+    }
+  });
+}
+updateDataPointColoring();
+
+watch(
+  () => store.foods_eaten_by_day,
+  () => updateDataPointColoring()
+);
+
 const chartOptions = {
   responsive: true,
   scales: {
@@ -73,13 +78,4 @@ const chartOptions = {
     },
   },
 };
-
-chartData.value.datasets[0].data.forEach((value) => {
-  if (value > 1800) {
-    // if (value < 140) {
-    chartData.value.datasets[0].backgroundColor.push('#ff0000');
-  } else {
-    chartData.value.datasets[0].backgroundColor.push('#324ca8');
-  }
-});
 </script>

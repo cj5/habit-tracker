@@ -19,6 +19,8 @@ Meal Tracker:
 
 [ ] Add data visualization
 
+[ ] Search within foods list
+
 
 
 

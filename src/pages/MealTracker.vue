@@ -5,7 +5,7 @@
         <h2 class="heading">Meal Tracker</h2>
         <div class="day-display flex fdc ml-6">
           <div class="flex aic">
-            <p class="fz-18 bold no-wrap m-0">{{ dayHighlighted }}</p>
+            <p class="fz-18 no-wrap m-0">{{ dayHighlighted }}</p>
             <p v-if="store.dayHighlighted === store.today" class="flag ml-2 m-0">Today</p>
             <p v-if="store.dayHighlighted === dayjs(store.today).subtract(1, 'day').format(store.dateFormat)" class="flag ml-2 m-0">Yesterday</p>
           </div>
@@ -208,7 +208,11 @@ function calculateTotals(value) {
   store.selectedFoods.map((food) => {
     total += food[value] * food.multiplier;
   });
-  return round(total);
+  if (store.selectedFoods.length === 0) {
+    return '–';
+  } else {
+    return round(total);
+  }
 }
 
 const totalProtein = computed(() => calculateTotals('protein'));
